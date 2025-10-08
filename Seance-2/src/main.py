@@ -19,3 +19,49 @@ print("Nombre de colonnes :", len(contenu.columns))
 # Question 7 type de chaque colonne
 print(contenu.dtypes)
 
+# Question 8 Nom des colonnes
+print("Aperçu du tableau:")
+print(contenu.head) 
+
+# Question 9 sélection nombre inscrits
+print("Nombre des inscrits par département :")
+print(contenu.Inscrits) 
+
+# Question 10 Calculer les effectifs des colonnes 
+# Créer une liste vide
+somme_colonnes = []
+
+# Parcourir chaque colonne
+for col in contenu.columns:
+    if contenu[col].dtype in ["int64", "float64"]:   # garder uniquement les colonnes numériques int et float
+        total = contenu[col].sum()
+        somme_colonnes.append((col, total))
+
+# Afficher le résultat
+print("Sommes des colonnes aux valeurs quantitatives :")
+for col, total in somme_colonnes:
+    print(f"- {col} : {total}")
+
+# Question 11 Diagrammes en barres
+# Créer le dossier "images", s'il n'existe pas déjà.
+import os 
+os.makedirs("images", exist_ok=True) 
+# Définir les colonnes à tracer
+colonnes = ["Inscrits", "Votants"]
+# Boucle sur chaque colonne
+for col in colonnes:
+    plt.figure(figsize=(16,10))
+    
+    # Tracer le diagramme en barres
+    plt.bar(contenu["Libellé du département"], contenu[col], color="skyblue")
+    
+    # Mise en forme
+    plt.xticks(rotation=90)
+    plt.title(f"Nombre de {col} par département")
+    plt.ylabel("Nombre d'électeurs")
+    plt.xlabel("Départements")
+    
+    # Sauvegarde en PNG
+    plt.tight_layout()
+    plt.savefig(f"images/{col}.png", dpi=300)
+    plt.close()
