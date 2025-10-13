@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 with open("./data/resultats-elections-presidentielles-2022-1er-tour.csv", "r") as f:
     contenu = pd.read_csv(f)
 
-# Etape 5 - fficher le contenu du tableau
+# Etape 5 - afficher le contenu du tableau
 print(contenu)
 
 # Etape 6 - Calculer le nombre de lignes et de colonnes
