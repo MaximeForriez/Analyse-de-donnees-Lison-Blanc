@@ -2,6 +2,16 @@
 import os, re
 import pandas as pd
 import matplotlib.pyplot as plt
+import re
+import unicodedata
+
+def safe_filename(s):
+    # enlever les accents
+    s = ''.join(c for c in unicodedata.normalize('NFD', s)
+                if unicodedata.category(c) != 'Mn')
+    # remplacer tout ce qui n'est pas alphanumérique par '_'
+    s = re.sub(r'[^a-zA-Z0-9]', '_', s)
+    return s
 
 # Etape 1 - Charger les données
 with open("./data/resultats-elections-presidentielles-2022-1er-tour.csv", "r") as f:
@@ -31,6 +41,7 @@ print(contenu["Inscrits"])
 print("\nSommes colonnes numériques :\n", contenu.select_dtypes(include=["int64","float64"]).sum())
 
 # Etape 11 - Diagrammes en barres : inscrits & votants
+#Etape 11.1 - Diagrammes globaux
 os.makedirs("images", exist_ok=True)
 for c in ["Inscrits", "Votants"]:
     plt.figure(figsize=(12,6))
@@ -42,6 +53,26 @@ for c in ["Inscrits", "Votants"]:
     plt.savefig(f"images/{c}.png", dpi=300)
     plt.close()
 print("→ Diagrammes 'Inscrits.png' et 'Votants.png' enregistrés")
+
+#Etape 11.2 - Diagramme par département 
+os.makedirs("images_par_dept", exist_ok=True)
+
+for i, dept in enumerate(contenu["Libellé du département"]):
+    inscrits = contenu.loc[i, "Inscrits"]
+    votants = contenu.loc[i, "Votants"]
+
+    plt.figure(figsize=(6,4))
+    plt.bar(["Inscrits", "Votants"], [inscrits, votants], color=["cornflowerblue", "salmon"])
+    plt.title(f"{dept} — Inscrits et Votants")
+    plt.ylabel("Nombre d’électeurs")
+    plt.tight_layout()
+    
+    # sauvegarde sécurisée
+    filename = safe_filename(dept) + ".png"
+    plt.savefig(f"images_par_dept/{filename}", dpi=300)
+    plt.close()
+
+print("→ Diagrammes individuels par département enregistrés dans 'images_par_dept/'")
 
 # Etape 12 - Diagrammes circulaires : blancs, nuls, exprimés, abstentions
 os.makedirs("images_pie", exist_ok=True)
