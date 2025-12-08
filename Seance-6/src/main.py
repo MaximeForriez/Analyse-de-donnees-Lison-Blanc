@@ -58,14 +58,10 @@ iles = pd.DataFrame(ouvrirUnFichier("./data/island-index.csv"))
 
 
 
-
-
-
 #Partie sur les populations des États du monde
 #Source. Depuis 2007, tous les ans jusque 2025, M. Forriez a relevé l'intégralité du nombre d'habitants dans chaque États du monde proposé par un numéro hors-série du monde intitulé États du monde. Vous avez l'évolution de la population et de la densité par année.
 monde = pd.DataFrame(ouvrirUnFichier("./data/Le-Monde-HS-Etats-du-monde-2007-2025.csv"))
 
-#Attention ! Il va falloir utiliser des fonctions natives de Python dans les fonctions locales que je vous propose pour faire l'exercice. Vous devez caster l'objet Pandas en list().
 
 print("\n" + "="*80)
 print("                 Partie 1 — ANALYSE LOI RANG–TAILLE (ISLAND INDEX)")
@@ -239,3 +235,9 @@ print(f"Coefficient de concordance de rang Kendall : {kendall_coef:.4f} (p-value
 print("\n# Commentaire :")
 print("# Ces coefficients indiquent le degré de similarité entre le classement par population et le classement par densité.")
 print("# Valeurs proches de 1 => forte concordance ; proches de 0 => classement indépendant ; valeurs négatives => classement inverse.")
+
+
+print("\n" + "="*80)
+print("                                 BONUS — ANALYSE DES RANGS")
+print("="*80 + "\n")
+
